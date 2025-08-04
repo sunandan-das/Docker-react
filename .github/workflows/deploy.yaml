@@ -23,4 +23,4 @@ jobs:
         run: docker run -e CI=true sunandandas/docker-react npm test
 
       - name: Push image to Docker Hub
-        run: docker push sunandandasdas/docker-react
+        run: docker push sunandandas/docker-react
