@@ -17,10 +17,10 @@ jobs:
         run: docker login -u sunandandas -p Gesundheit@1
 
       - name: Build Docker image
-        run: docker build -t sunandan/docker-react .
+        run: docker build -t sunandandas/docker-react .
 
       - name: Run tests
-        run: docker run -e CI=true sunandan/docker-react npm test
+        run: docker run -e CI=true sunandandas/docker-react npm test
 
       - name: Push image to Docker Hub
-        run: docker push sunandandas/docker-react
+        run: docker push sunandandasdas/docker-react
