@@ -1,0 +1,26 @@
+name: Deploy Frontend
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Log in to Docker Hub (using -p)
+        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build Docker image
+        run: docker build -t sunandan/docker-react -f Dockerfile.dev .
+
+      - name: Run tests
+        run: docker run -e CI=true sunandan/docker-react npm test
+
+      - name: Push image to Docker Hub
+        run: docker push sunandan/docker-react
