@@ -1,70 +1,144 @@
-# Getting Started with Create React App
+# 🚀 DevOps CI/CD Pipeline: Dockerized React App to AWS Elastic Beanstalk
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+[![Deploy Frontend](https://github.com/sunandan-das/Docker-react/actions/workflows/deploy.yaml/badge.svg?branch=main)](https://github.com/sunandan-das/Docker-react/actions/workflows/deploy.yaml)
 
-## Available Scripts
 
-In the project directory, you can run:
+> **DevOps Portfolio Project** | GitHub Actions | Docker | AWS Elastic Beanstalk | CI/CD Automation
 
-### `npm start`
+This project demonstrates a **production-grade CI/CD pipeline** that builds, tests, and deploys a Dockerized React app to **AWS Elastic Beanstalk** using **GitHub Actions**.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## ✅ Features
 
-### `npm test`
+* Fully automated CI/CD pipeline with GitHub Actions
+* Containerized React app using Docker
+* Deployment artifact packaging and delivery to AWS
+* Secrets managed via GitHub encrypted secrets
+* Resume-ready infrastructure project
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `npm run build`
+## 🧰 Tech Stack
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+| Tool                  | Purpose            |
+| --------------------- | ------------------ |
+| React                 | Frontend framework |
+| Docker                | Containerization   |
+| GitHub Actions        | CI/CD pipeline     |
+| AWS Elastic Beanstalk | Hosting platform   |
+| S3                    | Artifact storage   |
+| EC2                   | Underlying compute |
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+---
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## 📦 Installation & Local Setup
 
-### `npm run eject`
+```bash
+# Clone the repo
+git clone https://github.com/sunandan-das/Docker-react.git
+cd Docker-react
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+# Install dependencies
+npm install
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+# Start app locally
+npm start
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+# Or using Docker
+docker build -f Dockerfile.dev -t react-app .
+docker run -p 3000:3000 react-app
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+---
 
-## Learn More
+## 🛠️ CI/CD Pipeline Breakdown
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+GitHub Actions file: `.github/workflows/deploy.yml`
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Steps:
 
-### Code Splitting
+1. ✅ Checkout the code
+2. ✅ Build Docker image using `Dockerfile.dev`
+3. ✅ (Optional) Run tests
+4. ✅ Copy `Dockerfile.dev` → `Dockerfile`
+5. ✅ Package code into `deploy.zip`
+6. ✅ Upload and deploy to AWS Elastic Beanstalk
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+---
 
-### Analyzing the Bundle Size
+## 🌍 AWS Configuration Guide
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### 1. **Create Elastic Beanstalk App**
 
-### Making a Progressive Web App
+* Go to [Elastic Beanstalk Console](https://console.aws.amazon.com/elasticbeanstalk)
+* Create application: `react-app`
+* Platform: **Docker running on 64bit Amazon Linux**
+* Environment: `React-env`
+* Region: `eu-north-1`
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### 2. **Create an S3 Bucket**
 
-### Advanced Configuration
+* Name: `elasticbeanstalk-eu-north-1-your-account-id`
+* Region: `eu-north-1`
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+### 3. **Create IAM User for GitHub Actions**
 
-### Deployment
+* Attach policy: `AWSElasticBeanstalkFullAccess`, `AmazonS3FullAccess`
+* Save `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+### 4. **Add GitHub Secrets**
 
-### `npm run build` fails to minify
+Go to GitHub > Repo > Settings > Secrets:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+| Name                    | Purpose                           |
+| ----------------------- | --------------------------------- |
+| `AWS_ACCESS_KEY_ID`     | IAM key with EBS + S3 permissions |
+| `AWS_SECRET_ACCESS_KEY` | IAM secret for deployment access  |
+
+---
+
+## 📁 Project Structure
+
+```plaintext
+.
+├── Dockerfile.dev           # Used in CI for build & test
+├── Dockerfile               # Used by EBS to run app
+├── .github/workflows/       # GitHub Actions config
+├── src/                     # React source code
+├── public/                  # Static files
+├── package.json             # Dependencies and scripts
+├── deploy.yml               # CI/CD workflow
+└── README.md                # This documentation
+```
+
+---
+
+## 🎯 Deployment Guide
+
+```bash
+# 1. Push to main
+$ git push origin main
+
+# 2. GitHub Actions builds/tests/zips/deploys
+
+# 3. Access the live app
+http://React-env.eba-XXXX.eu-north-1.elasticbeanstalk.com/
+```
+
+---
+
+## 📈 Resume-Ready Summary
+
+> **"Built and deployed a containerized React app via GitHub Actions CI/CD pipeline to AWS Elastic Beanstalk with automated workflows, versioned artifacts, and secure IAM integration."**
+
+---
+
+## 👨‍💻 Author
+
+**Sunandan Sekhar Das**
+📍 Dublin, Ireland
+🔗 [LinkedIn](https://www.linkedin.com/in/sunandansekhardas/)
+
+---
+
