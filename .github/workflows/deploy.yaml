@@ -13,14 +13,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Log in to Docker Hub (using -p)
-        run: docker login -u sunandandas -p Gesundheit@1
+      - name: Build Docker image from Dockerfile
+        run: docker build -t sunandandas/docker-react -f Dockerfile.dev .
 
-      - name: Build Docker image
-        run: docker build -t sunandandas/docker-react .
-
-      - name: Run tests
+      - name: Run tests in container
         run: docker run -e CI=true sunandandas/docker-react npm test
-
-      - name: Push image to Docker Hub
-        run: docker push sunandandas/docker-react
